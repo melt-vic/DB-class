@@ -1,3 +1,5 @@
+<?php
+
 class Db { 
   static private $instance = null; 
   private $connection = null;

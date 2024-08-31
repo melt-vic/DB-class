@@ -2,23 +2,24 @@
 
 class Db { 
   static private $instance = null; 
-  private $connection = null;
+  static private $connection = null;
   protected $transactionDepth = 0; 
  
   private function __construct() { 
   }
   
   private function _connect() { 
-     if ($this->connection === null) {
+     if (self::$connection === null) {
          try {
             /* Código para conectarse a la BD */
+             self::$connection = new PDO('mysql:host=localhost', 'root', 'root');
          } catch (PDOException $e) {
             echo "error pdo: ";
             echo $e->getMessage();
          }
       }
 
-      return $this;
+      return self::$connection;
    }
    
    /* Nada que clonar en el patrón de diseño Singleton */
@@ -38,19 +39,16 @@ class Db {
 
    static public function closeConnection()
    {
-      if (!self::$instance === null) {
-         self::$instance = null;
-      }
+      self::$instance = null;
+
       if (isset(self::$connection)) {
-         unset(self::$connection);
+         self::$connection = null;
       }
    }
 
    public function getConnection()
    {
-      $this->_connect();
-
-      return $this->connection;
+      return $this->_connect();
    }
 
    protected function prepare($query, $params = array())

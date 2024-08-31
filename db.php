@@ -14,8 +14,7 @@ class Db {
             /* Código para conectarse a la BD */
              self::$connection = new PDO('mysql:host=localhost', 'root', 'root');
          } catch (PDOException $e) {
-            echo "error pdo: ";
-            echo $e->getMessage();
+            echo "error pdo: " . $e->getMessage();
          }
       }
 

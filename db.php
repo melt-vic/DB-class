@@ -104,7 +104,7 @@ class Db {
    public function rollback()
    {
       if ($this->transactionDepth == 0) {
-         throw new PDOException("Ninguna transacción en curso para retroceder");
+         throw new LogicException("Ninguna transacción en curso para retroceder");
       }
       $this->transactionDepth--;
       if ($this->transactionDepth == 0) {

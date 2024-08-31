@@ -83,7 +83,7 @@ class Db {
 
    public function begin()
    {
-      if ($this->transactionDepth == 0) {
+      if ($this->transactionDepth === 0) {
          $this->getConnection()->beginTransaction();
       }else{
          $this->execute("SAVEPOINT LEVEL{$this->transactionDepth}");
@@ -94,7 +94,7 @@ class Db {
    public function commit()
    {
       $this->transactionDepth--;
-      if ($this->transactionDepth == 0) {
+      if ($this->transactionDepth === 0) {
          return $this->getConnection()->commit();
       }else{
          return $this->execute("RELEASE SAVEPOINT LEVEL{$this->transactionDepth}");
@@ -103,11 +103,11 @@ class Db {
 
    public function rollback()
    {
-      if ($this->transactionDepth == 0) {
+      if ($this->transactionDepth === 0) {
          throw new LogicException("Ninguna transacción en curso para retroceder");
       }
       $this->transactionDepth--;
-      if ($this->transactionDepth == 0) {
+      if ($this->transactionDepth === 0) {
          return $this->getConnection()->rollback();
       }else{
          return $this->execute("ROLLBACK TO SAVEPOINT LEVEL{$this->transactionDepth}");
